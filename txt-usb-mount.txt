@@ -1,0 +1,20 @@
+First, list the partitions using "list block devices" command:
+
+lsblk -pf
+
+Note the device node (i.e. path) to the disk block on the device.
+
+Second, mount the disk block as super-user:
+
+mount <device node> <mount dir>
+
+To mount with permissions:
+
+e.g. mount -o guid=users,fmask=113,dmask=002, <device node> <mount dir>
+
+-o ... with he following comma seperated options (no spaces)
+guid=<group id> ... group id -necessary for rw access
+fmask=xxx,dmask=xxx ... permissions for files and ?disk or directories - I think disk?
+								for some silly reason this is a mask of normal permissions. For 777, use 000.
+
+VIRTUALBOX NOTE: For some reason, the fmask and dmask values in the example above are what was recommended for mounting shared folders.

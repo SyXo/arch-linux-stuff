@@ -1,0 +1,46 @@
+Vic: I found dual-booting Arch Linux and Windows with GRUB a bit messy but finally got it to work.
+
+Here are some things I learned to make it easier next time:
+
+- First, install Windows on an empty disk.
+	- When partitioning Windows, delete all partitions, then select the unpartitioned space to install windows. Do not install yet.
+	- From memory that should make the EFI boot partition for Windows in partition 1.
+	- Now create the partitions you want for Windows system, Linux & crossover-storage or whatever.
+		- Max 4 partitions, but just create 1 partition for the entire Linux install for now.
+	- Now delete the partition for Windows system so it says "unused space" or whatever (Windows 7 wouldn't allow me to install on a pre-partitioned section).
+	- Select that unpartitioned space and continue to install windows.
+	- The above steps are just so I can organise the partitions in whichever order I like.
+
+- Follow the Beginner's Guide on the Arch Linux site for installing Arch-Linux.
+	- When creating the Linux partitions (should be a MBR/BIOS boot for dual-booting with Windows, so just a Swap and a Linux partition), you will first
+	  have to partition the Linux partition as "extended", which will allow the creation of > 4 partitions ("extended").
+
+- Install GRUB
+	- Follow the directions on the Arch Linux GRUB guide to install GRUB for MBR/BIOS (Install to primary disk).
+
+- I found that GRUB was failing to mount to /boot when loading Arch Linux
+	- I think this is something to do with the NTFS file system. Not quite sure which fixed it (maybe both), but try:
+		- Install the Arch package ntfs-3g (IMPORTANT: This will also allow writing to the ntfs partition from Linux)
+			- if that didn't work, try also: -
+		- Look at the logs, there are probably some options added to the /boot mount in /etc/fstab that are not compatible with NTFS boot. Remove them.
+
+- The grub-mkconfig command didn't add a "Windows 7" menu entry
+	- Create a file, "11_Windows" in /etc/grub.d/ and use insert the following lines:
+
+		#! /bin/sh -e
+		echo "Adding Windows 7..." >&2
+
+		cat << EOF
+
+		menuentry "Windows 7" {
+
+			insmod ntfs
+			set root=(hd0,1)
+			chainloader +1
+	
+		}
+
+		EOF
+
+	- Note that the '1' in (hd0,1) refers to the partition to boot from in order listed by fdisk -l, boot from the windows boot partition.
+	- run the grub-makecfg -o /boot/grub/grub.cfg command again.

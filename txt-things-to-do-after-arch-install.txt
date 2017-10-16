@@ -1,0 +1,32 @@
+Add a non-root user
+	- Note the root user won't automatically get some config files
+	  in their home (/root) directory, such as .bash_profile, but
+	  they can be added.
+
+Install vim
+
+Install nvidia drivers (search for "Nvidia" on Arch wiki page)
+	- If getting weird conflict errors, try a different supplier
+	  if prompted by pacman (e.g. mesa or whatever).
+
+Install xorg-server
+Install xorg-xinit
+	- follow the directions for configuration on the Arch Linux
+	  Beginner's site carefully. Note that if it's loading and
+	  quitting straight away, one possible explanation is that
+	  xterm is being loaded at the bottom of .xinitrc, and xterm
+	  is not installed. Also maybe install xorg-xclock & xpdf.
+   - For some reason for me, .xinitrc (when copied from the default
+	  file as described in the above website) was loading three
+	  terminal windows.
+
+Set Background Image
+	- Install the arch packaged 'feh' which is a command line image
+	  viewer.
+   - feh --bg-scale <image-path>
+		- This command will set a background for the X window system
+		  and is useful if no desktop manager, window manager, etc.
+		  is installed (or they just don't support BG images).
+
+Configure xterm
+	- Look up "X Resources" on Arch Linux site.

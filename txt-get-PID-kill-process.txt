@@ -1,0 +1,7 @@
+ps ax | grep <name>
+
+Note the last entry will represent grep itself.
+
+The first number in the column is the PID.
+
+kill <pid>

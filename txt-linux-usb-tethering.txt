@@ -1,0 +1,9 @@
+Run 'ip link', note the listed devices.
+
+Plug in the USB tethering device and enable tethering.
+
+Run 'ip link' again. There should be a new device listed (usb0, epc123u232 blah blah, etc.)
+
+run 'dhcpcd <device>'
+
+That should do it.

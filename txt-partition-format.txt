@@ -1,0 +1,21 @@
+First, use the fdisk command to identify the disk block you wish to partition:
+
+fdisk -l
+
+Note the device node (i.e. path) to the disk.
+
+Then run the fdisk utility on the disk:
+
+fdisk <device_node>
+
+The options should be self explantory.
+
+Once the partitions have been written to disk, use the make-file-system command to create file systems:
+
+mkfs.<file system type> <device_node> - e.g. mkfs.ext4 /dev/sdb1'
+
+Note that to make windows file system types, it maybe necessary to install the dosfstools package, then:
+
+e.g.
+mkfs.msdos <device_node>
+mkfs.msdos -F 32 <device_node>

@@ -1,0 +1,32 @@
+1. Follow the guide roughly found at:
+
+  https://wiki.archlinux.org/index.php/installation_guide
+
+2. When partitioning, we need at minimum one EFI boot partition and win linux partition for the filesystem.
+    - use gdisk
+    - boot partition over 512M (I did 1024M). Type is EFI (code is ef00).
+    
+3. Format EFI partition as fat32 : mkfs.vfat -F32 /dev/sda<WHATEVER>
+
+4. Format Linux partition as ext4 (or whatever).
+
+5. Linux Swap (if used) as type Linux Swap.
+
+6. Mount linux file system to /mnt (mount /dev/sda3<whatever> /mnt)
+
+6. Mount EFI boot to /mnt/boot (mount -t vfat /dev/sda1<whatever> /mnt/boot)
+
+7. When installing base system use: pacstrap base base-devel efibootmgr vim
+
+8. We should be able to use efibootmgr to boot the system at startup:
+
+  efibootmgr -d /dev/sdX -p Y -c -g -L "Arch Linux" -l /vmlinuz-linux -u "root=/dev/sdBZ rw initrd=/initramfs-linux.img"
+  Where /dev/sdX and Y are the disk and partition where the ESP is located. Change the root= parameter to reflect your Linux root. Y is the number of the partition (e.g. 1 or 2)
+ 
+  BUT
+  
+  This won't work in VirtualBox over hard-resets because it will clear the NVRAM (or something). Instead, go the boot directory and add
+  the file "startup.nsh" which will be run by the UEFI Shell first and put this line in the file (which is the line used to boot linux from
+  the shell):
+  
+  vmlinuz-linux rw root=/dev/sda3<whatever> initrd=\initramfs-linux.img

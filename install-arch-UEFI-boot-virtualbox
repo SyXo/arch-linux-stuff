@@ -29,4 +29,6 @@
   the file "startup.nsh" which will be run by the UEFI Shell first and put this line in the file (which is the line used to boot linux from
   the shell):
   
-  vmlinuz-linux rw root=/dev/sda3<whatever> initrd=\initramfs-linux.img
+  vmlinuz-linux rw root=/dev/sda3<whatever> initrd=/initramfs-linux.img
+
+  (Note on the Arch Linux page, the forward slash for initrd is backwards, which seems not to work in VB).

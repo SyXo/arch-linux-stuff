@@ -19,6 +19,11 @@ Install xorg-xinit
    - For some reason for me, .xinitrc (when copied from the default
 	  file as described in the above website) was loading three
 	  terminal windows.
+	  
+Install openbox
+     - just install the openbox package.
+           - Edit .xinitrc and add exec openbox-session (note: not just "openbox", although it will work, it won't be a proper session).
+	   - create and edit ~/.config/openbox/autostart file - all commands should end with an &
 
 Set Background Image
 	- Install the arch packaged 'feh' which is a command line image
